@@ -5,8 +5,8 @@ const client = "reddit_clone";
 var info = "current_url=".concat(current_url, "&");
 var w = document.createElement("iframe");
 w.id = "botcart-iframe";
-w.src = "http://"
-  .concat("localhost:3000/?")
+w.src = "https://"
+  .concat("botcart-widget.netlify.app/?")
   .concat(info)
   .concat("client=", client)
   .concat("&")
