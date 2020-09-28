@@ -67,7 +67,7 @@ gulp.task('images', function() {
       progressive: true,
       svgoPlugins: [{ removeViewBox: false }],
       use: [pngquant()]
-    })))
+    }))).pipe(livereload(server))
     .pipe(gulp.dest('dest/images'));
 });
 
@@ -77,7 +77,7 @@ gulp.task('copy', function() {
   return gulp.src([
     'src/*',
     'src/fonts/*',
-    '!src/images/*',
+    'src/images/**/*',
     '!src/styles/*',
     '!src/scripts/*'
   ], {
@@ -132,7 +132,7 @@ gulp.task('watch:copy', function() {
   return gulp.watch([
     'src/*',
     'src/fonts/*',
-    '!src/images/*',
+    'src/images/**/*',
     '!src/styles/*',
     '!src/scripts/*'
   ], gulp.series('copy'));
@@ -142,7 +142,7 @@ gulp.task('watch', gulp.parallel(
   'watch:html',
   'watch:styles',
   'watch:scripts',
-  'watch:copy'
+  'watch:copy',
 ));
 
 // Build
@@ -151,7 +151,7 @@ gulp.task('build', gulp.parallel(
   'html',
   'styles',
   'scripts',
-  'copy'
+  'copy',
 ));
 
 // Deploy

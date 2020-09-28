@@ -1,4 +1,66 @@
-// Google Maps
+console.log("widget generation script loaded");
+const projectId = "34yWxG81gNefb2Vkj0rQ";
+const current_url = window.location.href;
+const client = "reddit_clone";
+var info = "current_url=".concat(current_url, "&");
+var w = document.createElement("iframe");
+w.id = "botcart-iframe";
+w.src = "http://"
+  .concat("localhost:3000/?")
+  .concat(info)
+  .concat("client=", client)
+  .concat("&")
+  .concat("projectId=", projectId, "&");
+w.allow = "autoplay";
+w.allowFullscreen = !0;
+
+let cookie_data = {};
+
+console.log(
+  document.cookie.split(";").map((element) => {
+    const values = element.trim().split("=");
+    cookie_data[values[0]] = values[1];
+    return values;
+  })
+);
+
+console.log(cookie_data);
+
+document.head.insertAdjacentHTML(
+  "beforeend",
+  `<style>
+#botcart-iframe
+{border: none; 
+  position: fixed; 
+  bottom: 0;  
+  right: 0; 
+  z-index: 31415999;
+  visibility: visible;
+  width: 401px;
+  height:570px;
+</style>`
+);
+
+if ("user" in cookie_data && "user_id" in cookie_data) {
+  console.log(cookie_data.user, cookie_data.user_id);
+
+  const user_data = "user="
+    .concat(cookie_data.user, "&")
+    .concat("user_id=", cookie_data.user_id);
+  w.src = w.src.concat(user_data);
+  document.body.appendChild(w);
+} else {
+  console.log("In Else");
+  fetch("https://api.ipify.org/?format=json")
+    .then((resp) => resp.json())
+    .then((ip) => {
+      const simplifiedIP = ip.ip.split(".").join("");
+      console.log("In fetch called", ip, simplifiedIP);
+      w.src = w.src.concat("userIP=", simplifiedIP, "&");
+      console.log("Source to be sent to widget", w.src);
+      document.body.appendChild(w);
+    });
+}
 
 function initMap() {
   var elements = document.querySelectorAll('.js-map');
